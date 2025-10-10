@@ -23,6 +23,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          clean: true
+
+      - name: Verify index.html
+        run: |
+          echo "Checking index.html for hardcoded asset references..."
+          if grep -q 'src="/assets/index-' index.html; then
+            echo "ERROR: Found hardcoded asset references in index.html"
+            cat index.html
+            exit 1
+          fi
+          echo "index.html looks good!"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -31,7 +43,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Clean dist folder
         run: rm -rf dist
