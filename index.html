@@ -85,18 +85,71 @@
     <!-- Content -->
     <div class="text-center max-w-4xl mx-auto">
       <h1 class="text-4xl md:text-6xl font-bold mb-6 gradient-text" id="main-title"></h1>
-      <p class="text-xl text-slate-300 mb-12 leading-relaxed" id="subtitle"></p>
+      <p class="text-xl text-slate-300 mb-8 leading-relaxed" id="subtitle"></p>
+      
+      <!-- YouTube Video Embed -->
+     <!DOCTYPE html>
+<html>
+<head>
+    <title>NeuroQuranic Video</title>
+    <style>
+        body {
+            background: #0f172a;
+            color: white;
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .video-container {
+            margin: 30px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(34, 211, 238, 0.3);
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #94a3b8;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        h1 {
+            background: linear-gradient(to right, #22d3ee, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 28px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minda Anda Sedang "Dihack": Adakah Anda Mangsa Seterusnya?</h1>
+    
+    <p class="subtitle">Satu pendedahan tentang kerosakan neuro-biologi akibat gaya hidup digital dan bagaimana NeuroQuranic membina semula struktur otak anda menggunakan teknologi Al-Quran.</p>
+    
+    <div class="video-container">
+        <iframe 
+            width="100%" 
+            height="500" 
+            src="https://www.youtube.com/embed/bZld1MMMrVY" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
     </div>
+    
+    <p class="subtitle">Video is now embedded above. Open this HTML file in your browser to see it work!</p>
+</body>
+</html>
 
-    <div id="content-container"></div>
-  </div>
 
-  <script>
     // Complete translations
     const translations = {
       en: {
         title: "Your Mind Is Being \"Hacked\": Could You Be Next?",
         subtitle: "An exposé on the neuro-biological damage caused by digital lifestyles—and how NeuroQuranic rebuilds your brain’s architecture using the technology of the Qur’an.",
+        videoDesc: "An exposé on the neuro-biological damage caused by digital lifestyles—and how NeuroQuranic rebuilds your brain’s architecture using the technology of the Qur’an.",
         prologue: {
           title: "Prologue: The Loss of Mental Sovereignty",
           content: "Whether you realize it or not, we live in an era of \"Mind Colonization\" without weapons. Your enemy is no longer another person—but algorithms engineered to manipulate your brain chemistry. Every time you touch your phone screen, a battle rages within your nervous system."
@@ -164,6 +217,7 @@
       ms: {
         title: "Minda Anda Sedang \"Dihack\": Adakah Anda Mangsa Seterusnya?",
         subtitle: "Satu pendedahan tentang kerosakan neuro-biologi akibat gaya hidup digital dan bagaimana NeuroQuranic membina semula struktur otak anda menggunakan teknologi Al-Quran.",
+        videoDesc: "Satu pendedahan tentang kerosakan neuro-biologi akibat gaya hidup digital dan bagaimana NeuroQuranic membina semula struktur otak anda menggunakan teknologi Al-Quran.",
         prologue: {
           title: "Prolog: Kehilangan \"Kedaulatan\" Diri",
           content: "Sedar atau tidak, kita sedang hidup dalam era \"Penjajahan Minda\" tanpa senjata api. Musuh kita bukan lagi manusia, tetapi algoritma yang direka untuk memanipulasi kimia otak kita. Setiap kali anda menyentuh skrin telefon, satu pertempuran sedang berlaku di dalam sistem saraf anda."
@@ -231,6 +285,7 @@
       id: {
         title: "Pikiran Anda Sedang \"Dihack\": Akankah Anda Jadi Korban Berikutnya?",
         subtitle: "Sebuah pengungkapan tentang kerusakan neuro-biologis akibat gaya hidup digital—dan bagaimana NeuroQuranic membangun kembali arsitektur otak Anda menggunakan teknologi Al-Qur'an.",
+        videoDesc: "Sebuah pengungkapan tentang kerusakan neuro-biologis akibat gaya hidup digital—dan bagaimana NeuroQuranic membangun kembali arsitektur otak Anda menggunakan teknologi Al-Qur'an.",
         prologue: {
           title: "Prolog: Kehilangan \"Kedaulatan\" Diri",
           content: "Sadar atau tidak, kita tengah hidup di era \"Penjajahan Pikiran\" tanpa senjata api. Musuh kita bukan lagi manusia, melainkan algoritma yang dirancang untuk memanipulasi kimia otak kita. Setiap kali Anda menyentuh layar ponsel, pertempuran sedang berkecamuk di dalam sistem saraf Anda."
@@ -300,6 +355,7 @@
     // DOM elements
     const titleEl = document.getElementById('main-title');
     const subtitleEl = document.getElementById('subtitle');
+    const videoDescEl = document.getElementById('video-description');
     const contentContainer = document.getElementById('content-container');
     const languageButtons = document.querySelectorAll('.language-btn');
 
@@ -312,6 +368,7 @@
       // Update header
       titleEl.textContent = t.title;
       subtitleEl.textContent = t.subtitle;
+      videoDescEl.textContent = t.videoDesc;
       
       // Update language button styles
       languageButtons.forEach(btn => {
