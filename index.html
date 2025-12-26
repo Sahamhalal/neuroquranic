@@ -1,487 +1,483 @@
-import React, { useState, useEffect } from 'react';
-import { Brain, Shield, Zap, BookOpen, Waves, Users, Download, Globe, Languages } from 'lucide-react';
-
-const translations = {
-  en: {
-    title: "Your Mind Is Being \"Hacked\": Could You Be Next?",
-    subtitle: "An exposé on the neuro-biological damage caused by digital lifestyles—and how NeuroQuranic rebuilds your brain’s architecture using the technology of the Qur’an.",
-    prologue: {
-      title: "Prologue: The Loss of Mental Sovereignty",
-      content: "Whether you realize it or not, we live in an era of \"Mind Colonization\" without weapons. Your enemy is no longer another person—but algorithms engineered to manipulate your brain chemistry. Every time you touch your phone screen, a battle rages within your nervous system."
-    },
-    chapter1: {
-      title: "Chapter 1: The TikTok Brain & Prefrontal Cortex Erosion",
-      p1: "In neuroscience, human focus is governed by the Prefrontal Cortex (PFC)—the brain region responsible for decision-making, self-control, and deep concentration.",
-      p2: "When you consume short-form content (TikTok/Reels), your brain is forced to process new information every 15–30 seconds. This triggers continuous, excessive dopamine spikes.",
-      impact: "Scientific Impact:",
-      bullet1: "Negative Neuroplasticity: Your brain begins to \"prune\" neural circuits used for sustained attention because they’re no longer activated.",
-      bullet2: "Short-Term Attention Span: You suffer from Directed Attention Fatigue. You want to read a book, but your brain \"screams\" for instant stimulation. You’re losing the capacity for Deep Thinking."
-    },
-    chapter2: {
-      title: "Chapter 2: Amygdala Damage & Social Media Emotional Addiction",
-      p1: "Social media isn’t just entertainment—it’s an Amygdala machine. The amygdala is your brain’s emotional and \"fear center.\"",
-      p2: "Sensational headlines, angry debates, and comparison culture force your amygdala into chronic \"Hyper-arousal.\" You remain stuck in constant fight-or-flight mode.",
-      impact: "Scientific Impact:",
-      bullet1: "Cortisol Spike: Chronic stress hormone (cortisol) elevation gradually damages hippocampal cells—the memory center.",
-      bullet2: "Emotional Dysregulation: You become more reactive, anxious, and unable to find inner calm (Sakinah), even in silence. You no longer control your emotions—algorithms do."
-    },
-    chapter3: {
-      title: "Chapter 3: AI & Cognitive Atrophy (The Decline of Mental Muscle)",
-      p1: "Artificial Intelligence simplifies life—but risks Cognitive Atrophy. The human brain follows \"Synaptic Pruning\": unused neural connections are eliminated.",
-      p2: "When we stop thinking critically, stop memorizing routes, or stop strategic planning due to over-reliance on AI, our neural synapses begin to wither. We become a generation with \"Information Without Understanding\" and \"Data Without Wisdom.\""
-    },
-    solution: {
-      title: "THE NEUROQURANIC PROTOCOL: YOUR SOLUTION",
-      intro: "How do we fight back? NeuroQuranic isn’t just a religious app—it’s a Mental Gymnasium built on the miracle of the Qur’an and modern neuroscience.",
-      method1: {
-        title: "Huffaz Method: The Ultimate Brain Workout",
-        content: "Qur’anic memorization (Hifz) is the world’s most intensive cognitive training. It maximally activates the Left Inferior Frontal Gyrus, forcing your Prefrontal Cortex to \"reboot\" and rebuild focus circuits damaged by digital distraction. Neuroimaging shows memorizers have significantly higher gray matter density in memory and attention regions."
-      },
-      method2: {
-        title: "Neuro-Tadabbur: Counter AI Atrophy",
-        content: "NeuroQuranic trains you to engage with the Qur’an’s complex linguistic structure—exercising critical thinking to prevent mental laziness from AI dependence. You don’t just read; you dissect meaning, forge new synapses, and awaken dormant brain cells."
-      },
-      method3: {
-        title: "Soundwave Therapy: The Alpha State",
-        content: "Proper Qur’anic recitation (Tartil) produces unique sound frequencies. Scientifically, this induces Alpha brainwaves (8–13 Hz)—a state of calm yet razor-sharp focus. The vocal vibrations also stimulate the vagus nerve, lowering heart rate and soothing a nervous system \"burned out\" by social media."
-      }
-    },
-    conclusion: {
-      title: "Conclusion: Your Mind’s Future Is in Your Hands",
-      p1: "Science confirms: your brain can change (Neuroplasticity). You can let technology erode it—or use the NeuroQuranic Protocol to rebuild a \"Super-Brain\": calm, focused, and razor-sharp.",
-      p2: "Are you ready to reclaim your mental sovereignty?",
-      cta: "DOWNLOAD NEUROQURANIC FREE NOW",
-      website: "www.neuroquranic.app"
-    },
-    whyChoose: {
-      title: "Why Choose NeuroQuranic?",
-      scientific: {
-        title: "Scientifically Validated",
-        desc: "Content backed by neuroscientists and Islamic education experts."
-      },
-      curriculum: {
-        title: "Huffaz Curriculum",
-        desc: "Systematic memorization techniques accessible to all ages."
-      },
-      tracking: {
-        title: "Progress Tracking",
-        desc: "Visualize daily improvements in focus and tranquility."
-      }
-    },
-    language: {
-      en: "English",
-      ms: "Bahasa Melayu",
-      id: "Bahasa Indonesia"
-    }
-  },
-  ms: {
-    title: "Minda Anda Sedang \"Dihack\": Adakah Anda Mangsa Seterusnya?",
-    subtitle: "Satu pendedahan tentang kerosakan neuro-biologi akibat gaya hidup digital dan bagaimana NeuroQuranic membina semula struktur otak anda menggunakan teknologi Al-Quran.",
-    prologue: {
-      title: "Prolog: Kehilangan \"Kedaulatan\" Diri",
-      content: "Sedar atau tidak, kita sedang hidup dalam era \"Penjajahan Minda\" tanpa senjata api. Musuh kita bukan lagi manusia, tetapi algoritma yang direka untuk memanipulasi kimia otak kita. Setiap kali anda menyentuh skrin telefon, satu pertempuran sedang berlaku di dalam sistem saraf anda."
-    },
-    chapter1: {
-      title: "Bab 1: TikTok Brain & Hakisan \"Prefrontal Cortex\"",
-      p1: "Dalam istilah neurosains, fokus manusia dikawal oleh Prefrontal Cortex (PFC)—bahagian otak yang bertanggungjawab untuk membuat keputusan, kawalan diri, dan tumpuan mendalam.",
-      p2: "Apabila anda menonton kandungan pendek (TikTok/Reels), otak anda dipaksa untuk memproses maklumat baru setiap 15-30 saat. Ini mencetuskan renjatan Dopamine yang berlebihan secara berterusan.",
-      impact: "Kesan Saintifik:",
-      bullet1: "Neuroplasticity Negatif: Otak anda mula \"membuang\" litar saraf yang digunakan untuk tumpuan lama kerana ia tidak lagi diperlukan.",
-      bullet2: "Short-term Attention Span: Anda menjadi mangsa Directed Attention Fatigue. Anda mahu membaca buku, tetapi otak anda \"menjerit\" mahukan rangsangan pantas. Anda sedang kehilangan keupayaan untuk berfikir secara mendalam (Deep Thinking)."
-    },
-    chapter2: {
-      title: "Bab 2: Kerosakan \"Amygdala\" & Ketagihan Emosi Media Sosial",
-      p1: "Media sosial bukan sekadar hiburan; ia adalah mesin Amigdala. Amigdala adalah pusat emosi dan \"pusat ketakutan\" dalam otak.",
-      p2: "Berita yang sensasi, debat yang marah, dan budaya membandingkan diri di media sosial memaksa Amigdala anda berada dalam keadaan \"Hyper-arousal\". Anda sentiasa berada dalam mod Fight-or-Flight.",
-      impact: "Kesan Saintifik:",
-      bullet1: "Cortisol Spike: Tahap hormon stres (Kortisol) meningkat secara kronik, yang secara perlahan-lahan merosakkan sel-sel di Hippocampus (pusat memori).",
-      bullet2: "Emotional Dysregulation: Anda menjadi lebih emosional, mudah cemas, dan sukar mencari ketenangan (Sakinah) walaupun dalam waktu sunyi. Anda tidak lagi mengawal emosi anda; algoritma yang mengawalnya."
-    },
-    chapter3: {
-      title: "Bab 3: AI & Atrofi Kognitif (Kepupusan Otot Akal)",
-      p1: "Kecerdasan Buatan (AI) memang memudahkan, tetapi ia membawa risiko Atrofi Kognitif. Otak manusia berfungsi atas prinsip \"Synaptic Pruning\"—apa yang tidak digunakan akan dihapuskan.",
-      p2: "Apabila kita berhenti berfikir kritis, berhenti menghafal jalan, atau berhenti merancang strategi kerana terlalu bergantung kepada AI, sinaps (sambungan saraf) dalam otak kita mula melayu. Kita menjadi generasi yang memiliki \"Maklumat Tanpa Kefahaman\" dan \"Data Tanpa Kebijaksanaan\"."
-    },
-    solution: {
-      title: "SOLUSI: PROTOKOL NEUROQURANIC",
-      intro: "Bagaimana Kita Melawan Balik? NeuroQuranic bukan sekadar aplikasi agama; ia adalah Gimnasium Mental yang dibina atas gabungan mukjizat Al-Quran dan penemuan neurosains moden.",
-      method1: {
-        title: "Kaedah Huffaz: \"The Ultimate Brain Workout\"",
-        content: "Tradisi menghafal Al-Quran (Hifz) adalah latihan kognitif paling intensif di dunia. Sains Hafalan: Apabila anda menghafal ayat Al-Quran menggunakan teknik Huffaz, anda sedang mengaktifkan Left Inferior Frontal Gyrus secara maksima. Ia memaksa Prefrontal Cortex anda untuk \"reboot\" dan membina semula litar fokus yang telah rosak oleh TikTok Brain. Peningkatan Grey Matter: Kajian neuro-imejing menunjukkan penghafal tegar mempunyai kepadatan Grey Matter yang lebih tinggi di bahagian otak yang mengawal memori dan perhatian."
-      },
-      method2: {
-        title: "Neuro-Tadabbur: Melawan Atrofi AI",
-        content: "NeuroQuranic melatih anda untuk berfikir melalui struktur linguistik Al-Quran yang kompleks. Ini adalah latihan Critical Thinking yang menghalang otak daripada menjadi malas akibat pergantungan kepada AI. Anda tidak hanya membaca; anda membedah makna, membina sinaps baru, dan menghidupkan semula sel-sel otak yang dorman."
-      },
-      method3: {
-        title: "Terapi Gelombang Suara (The Alpha State)",
-        content: "Bacaan Al-Quran yang bertartil mengikut hukum tajwid menghasilkan frekuensi bunyi yang unik. Sinkronisasi Otak: Secara saintifik, ia mendorong otak masuk ke fasa Gelombang Alpha (8-13 Hz)—keadaan di mana minda sangat tenang tetapi sangat fokus. Vagus Nerve Stimulation: Getaran suara daripada bacaan Al-Quran merangsang saraf vagus, yang secara automatik menurunkan kadar denyutan jantung dan menenangkan sistem saraf yang sebelum ini \"terbakar\" oleh media sosial."
-      }
-    },
-    conclusion: {
-      title: "Kesimpulan: Masa Depan Minda Anda Di Tangan Anda",
-      p1: "Sains telah membuktikan: Otak anda boleh berubah (Neuroplasticity). Anda boleh terus membiarkan teknologi merosakkannya, atau anda boleh menggunakan Protokol NeuroQuranic untuk membina semula \"Super-Brain\" yang tenang, fokus, dan tajam.",
-      p2: "Adakah anda bersedia untuk merampas semula kedaulatan minda anda?",
-      cta: "MUAT TURUN NEUROQURANIC PERCUMA SEKARANG",
-      website: "www.neuroquranic.app"
-    },
-    whyChoose: {
-      title: "Kenapa Pilih NeuroQuranic?",
-      scientific: {
-        title: "Kajian Saintifik",
-        desc: "Kandungan yang disokong oleh pakar neurosains dan pendidikan Islam."
-      },
-      curriculum: {
-        title: "Kurikulum Huffaz",
-        desc: "Teknik hafalan sistematik yang mudah diikuti oleh semua peringkat umur."
-      },
-      tracking: {
-        title: "Pantau Kemajuan",
-        desc: "Lihat bagaimana daya fokus dan ketenangan anda meningkat hari demi hari."
-      }
-    },
-    language: {
-      en: "English",
-      ms: "Bahasa Melayu",
-      id: "Bahasa Indonesia"
-    }
-  },
-  id: {
-    title: "Pikiran Anda Sedang \"Dihack\": Akankah Anda Jadi Korban Berikutnya?",
-    subtitle: "Sebuah pengungkapan tentang kerusakan neuro-biologis akibat gaya hidup digital—dan bagaimana NeuroQuranic membangun kembali arsitektur otak Anda menggunakan teknologi Al-Qur'an.",
-    prologue: {
-      title: "Prolog: Kehilangan \"Kedaulatan\" Diri",
-      content: "Sadar atau tidak, kita tengah hidup di era \"Penjajahan Pikiran\" tanpa senjata api. Musuh kita bukan lagi manusia, melainkan algoritma yang dirancang untuk memanipulasi kimia otak kita. Setiap kali Anda menyentuh layar ponsel, pertempuran sedang berkecamuk di dalam sistem saraf Anda."
-    },
-    chapter1: {
-      title: "Bab 1: Otak TikTok & Erosi \"Prefrontal Cortex\"",
-      p1: "Dalam ilmu saraf, fokus manusia dikendalikan oleh Prefrontal Cortex (PFC)—bagian otak yang bertanggung jawab atas pengambilan keputusan, pengendalian diri, dan konsentrasi mendalam.",
-      p2: "Saat Anda menonton konten pendek (TikTok/Reels), otak Anda dipaksa memproses informasi baru setiap 15-30 detik. Ini memicu lonjakan dopamin berlebihan secara terus-menerus.",
-      impact: "Dampak Ilmiah:",
-      bullet1: "Neuroplastisitas Negatif: Otak Anda mulai \"menghapus\" sirkuit saraf yang digunakan untuk fokus jangka panjang karena tidak lagi digunakan.",
-      bullet2: "Rentang Perhatian Pendek: Anda menjadi korban Kelelahan Perhatian Terarah. Anda ingin membaca buku, tetapi otak Anda \"berteriak\" menginginkan stimulasi instan. Anda kehilangan kemampuan untuk berpikir mendalam (Deep Thinking)."
-    },
-    chapter2: {
-      title: "Bab 2: Kerusakan \"Amygdala\" & Kecanduan Emosi Media Sosial",
-      p1: "Media sosial bukan sekadar hiburan; ia adalah mesin Amigdala. Amigdala adalah pusat emosi dan \"pusat rasa takut\" di otak.",
-      p2: "Berita sensasional, perdebatan marah, dan budaya membandingkan diri di media sosial memaksa Amigdala Anda dalam kondisi \"Hyper-arousal\". Anda selalu berada dalam mode lawan-atau-lari (Fight-or-Flight).",
-      impact: "Dampak Ilmiah:",
-      bullet1: "Lonjakan Kortisol: Kadar hormon stres (Kortisol) meningkat secara kronis, perlahan merusak sel-sel di Hippocampus (pusat memori).",
-      bullet2: "Disregulasi Emosional: Anda jadi lebih emosional, mudah cemas, dan sulit menemukan ketenangan (Sakinah) bahkan saat dalam kesunyian. Anda tak lagi mengendalikan emosi Anda; algoritma yang mengendalikannya."
-    },
-    chapter3: {
-      title: "Bab 3: AI & Atrofi Kognitif (Kemunduran Otot Pikiran)",
-      p1: "Kecerdasan Buatan (AI) memang mempermudah, tapi membawa risiko Atrofi Kognitif. Otak manusia bekerja dengan prinsip \"Pemangkasan Sinaptik\"—apa yang tidak digunakan akan dihapus.",
-      p2: "Saat kita berhenti berpikir kritis, berhenti menghafal rute, atau berhenti merancang strategi karena terlalu bergantung pada AI, sinaps (sambungan saraf) di otak kita mulai layu. Kita menjadi generasi yang memiliki \"Informasi Tanpa Pemahaman\" dan \"Data Tanpa Kebijaksanaan\"."
-    },
-    solution: {
-      title: "SOLUSI: PROTOKOL NEUROQURANIC",
-      intro: "Bagaimana Kita Melawan? NeuroQuranic bukan sekadar aplikasi agama; ia adalah Gimnasium Mental yang dibangun atas penggabungan mukjizat Al-Qur'an dan temuan neurosains modern.",
-      method1: {
-        title: "Metode Huffaz: \"Latihan Otak Ultimate\"",
-        content: "Tradisi menghafal Al-Qur'an (Hifz) adalah latihan kognitif paling intensif di dunia. Ilmu Hafalan: Saat Anda menghafal ayat Al-Qur'an menggunakan teknik Huffaz, Anda sedang mengaktifkan Left Inferior Frontal Gyrus secara maksimal. Ini memaksa Prefrontal Cortex Anda untuk \"reboot\" dan membangun kembali sirkuit fokus yang rusak oleh TikTok Brain. Peningkatan Grey Matter: Studi neuroimaging menunjukkan para penghafal Al-Qur'an memiliki kepadatan Grey Matter lebih tinggi di bagian otak yang mengatur memori dan perhatian."
-      },
-      method2: {
-        title: "Neuro-Tadabbur: Melawan Atrofi AI",
-        content: "NeuroQuranic melatih Anda untuk berpikir melalui struktur linguistik Al-Qur'an yang kompleks. Ini adalah latihan Berpikir Kritis yang mencegah otak menjadi malas akibat ketergantungan pada AI. Anda tidak hanya membaca; Anda menganalisis makna, membentuk sinaps baru, dan menghidupkan kembali sel-sel otak yang dorman."
-      },
-      method3: {
-        title: "Terapi Gelombang Suara (Keadaan Alpha)",
-        content: "Bacaan Al-Qur'an yang bertartil sesuai hukum tajwid menghasilkan frekuensi suara unik. Sinkronisasi Otak: Secara ilmiah, ini mendorong otak memasuki fase Gelombang Alpha (8-13 Hz)—keadaan pikiran sangat tenang namun sangat fokus. Stimulasi Saraf Vagus: Getaran suara dari bacaan Al-Qur'an merangsang saraf vagus, yang secara otomatis menurunkan detak jantung dan menenangkan sistem saraf yang sebelumnya \"terbakar\" oleh media sosial."
-      }
-    },
-    conclusion: {
-      title: "Kesimpulan: Masa Depan Pikiran Anda di Tangan Anda",
-      p1: "Sains telah membuktikan: Otak Anda dapat berubah (Neuroplastisitas). Anda bisa terus membiarkan teknologi merusaknya, atau menggunakan Protokol NeuroQuranic untuk membangun kembali \"Super-Brain\" yang tenang, fokus, dan tajam.",
-      p2: "Apakah Anda siap merebut kembali kedaulatan pikiran Anda?",
-      cta: "UNDUH NEUROQURANIC GRATIS SEKARANG",
-      website: "www.neuroquranic.app"
-    },
-    whyChoose: {
-      title: "Mengapa Memilih NeuroQuranic?",
-      scientific: {
-        title: "Studi Ilmiah",
-        desc: "Konten yang didukung oleh pakar neurosains dan pendidikan Islam."
-      },
-      curriculum: {
-        title: "Kurikulum Huffaz",
-        desc: "Teknik hafalan sistematis yang mudah diikuti semua usia."
-      },
-      tracking: {
-        title: "Pantau Perkembangan",
-        desc: "Lihat bagaimana daya fokus dan ketenangan Anda meningkat hari demi hari."
-      }
-    },
-    language: {
-      en: "English",
-      ms: "Bahasa Melayu",
-      id: "Bahasa Indonesia"
-    }
-  }
-};
-
-// Affiliate tracking function (equivalent to your script)
-const handleAffiliateTracking = () => {
-  const path = window.location.pathname;
-  const hash = window.location.hash;
-
-  // Handle direct affiliate paths (for GitHub Pages)
-  if (path.startsWith('/affiliate/')) {
-    const affiliateId = path.split('/affiliate/')[1];
-    if (affiliateId) {
-      // Store affiliate data in localStorage
-      try {
-        const referralData = {
-          partnerId: affiliateId,
-          timestamp: Date.now(),
-          source: 'direct_link',
-          originalPath: path
-        };
-        localStorage.setItem('neuroquranic_referral', JSON.stringify(referralData));
-        console.log('Affiliate referral stored:', affiliateId);
-      } catch (error) {
-        console.error('Failed to store referral:', error);
-      }
-
-      // Redirect to hash-based route for SPA handling
-      // GitHub Pages will serve index.html for any path, so this works
-      window.location.href = window.location.origin + '/#/' + affiliateId;
-      return true;
-    }
-  }
-
-  // Handle hash-based affiliate routes
-  if (hash.startsWith('#/')) {
-    const affiliatePath = hash.substring(2); // Remove '#/'
-    if (affiliatePath.startsWith('affiliate/')) {
-      const affiliateId = affiliatePath.split('affiliate/')[1];
-      if (affiliateId) {
-        console.log('Hash-based affiliate route detected:', affiliateId);
-        // You can process this in your React component if needed
-        return true;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuroQuranic - Your Mind Is Being "Hacked"</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'slate-900': '#0f172a',
+            'purple-900': '#581c87',
+            'cyan-400': '#22d3ee',
+            'purple-400': '#c084fc'
+          }
+        }
       }
     }
-  }
-
-  return false;
-};
-
-export default function App() {
-  const [language, setLanguage] = useState('ms');
-  const [affiliateDetected, setAffiliateDetected] = useState(false);
+  </script>
+  <style>
+    .gradient-text {
+      background: linear-gradient(to right, #22d3ee, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
   
-  const t = translations[language];
+  <!-- Affiliate Tracking Script -->
+  <script>
+    // Check if this is an affiliate link before page loads
+    (function() {
+      const path = window.location.pathname;
+      const search = window.location.search;
 
-  // Run affiliate tracking on component mount
-  useEffect(() => {
-    const hasAffiliate = handleAffiliateTracking();
-    if (hasAffiliate) {
-      setAffiliateDetected(true);
-    }
-  }, []);
+      // If this is an affiliate route, store it and redirect to home with hash
+      if (path.startsWith('/affiliate/')) {
+        const affiliateId = path.split('/affiliate/')[1];
+        if (affiliateId) {
+          // Store affiliate data
+          try {
+            const referralData = {
+              partnerId: affiliateId,
+              timestamp: Date.now(),
+              source: 'direct_link',
+              originalPath: path
+            };
+            localStorage.setItem('neuroquranic_referral', JSON.stringify(referralData));
+            console.log('Affiliate referral stored:', affiliateId);
+          } catch (error) {
+            console.error('Failed to store referral:', error);
+          }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
-      {/* Language Selector */}
-      <div className="container mx-auto px-4 py-6 flex justify-end">
-        <div className="flex items-center bg-slate-800/70 rounded-full px-1 py-1 border border-slate-600">
-          <Languages className="w-5 h-5 mr-2 text-cyan-400 hidden md:block" />
-          <div className="flex space-x-1">
-            {Object.entries(t.language).map(([langCode, langName]) => (
-              <button
-                key={langCode}
-                onClick={() => setLanguage(langCode)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                  language === langCode
-                    ? 'bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow-lg'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
-                }`}
-              >
-                {langName}
-              </button>
-            ))}
-          </div>
-        </div>
+          // Redirect to home with hash routing for SPA
+          window.location.href = '/#/affiliate/' + affiliateId;
+        }
+      }
+
+      // Handle hash-based routing for SPA
+      if (window.location.hash.startsWith('#/affiliate/')) {
+        console.log('Hash-based affiliate route detected');
+      }
+    })();
+  </script>
+
+  <div class="container mx-auto px-4 py-6">
+    <!-- Language Selector -->
+    <div class="flex justify-end mb-12">
+      <div class="flex bg-slate-800/70 rounded-full p-1 border border-slate-600">
+        <button class="language-btn px-4 py-2 rounded-full text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-purple-600 shadow-lg" data-lang="ms">
+          Bahasa Melayu
+        </button>
+        <button class="language-btn px-4 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700/50" data-lang="en">
+          English
+        </button>
+        <button class="language-btn px-4 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700/50" data-lang="id">
+          Bahasa Indonesia
+        </button>
       </div>
+    </div>
 
-      {/* Header */}
-      <div className="container mx-auto px-4 pb-16">
-        <div className="text-center max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            {t.title}
-          </h1>
-          <p className="text-xl text-slate-300 mb-12 leading-relaxed">
-            {t.subtitle}
-          </p>
-        </div>
+    <!-- Content -->
+    <div class="text-center max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6 gradient-text" id="main-title"></h1>
+      <p class="text-xl text-slate-300 mb-12 leading-relaxed" id="subtitle"></p>
+    </div>
 
-        {/* Prologue */}
-        <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-6 text-cyan-300 flex items-center gap-3">
-            <Shield className="w-8 h-8" />
-            {t.prologue.title}
+    <div id="content-container"></div>
+  </div>
+
+  <script>
+    // Complete translations
+    const translations = {
+      en: {
+        title: "Your Mind Is Being \"Hacked\": Could You Be Next?",
+        subtitle: "An exposé on the neuro-biological damage caused by digital lifestyles—and how NeuroQuranic rebuilds your brain’s architecture using the technology of the Qur’an.",
+        prologue: {
+          title: "Prologue: The Loss of Mental Sovereignty",
+          content: "Whether you realize it or not, we live in an era of \"Mind Colonization\" without weapons. Your enemy is no longer another person—but algorithms engineered to manipulate your brain chemistry. Every time you touch your phone screen, a battle rages within your nervous system."
+        },
+        chapter1: {
+          title: "Chapter 1: The TikTok Brain & Prefrontal Cortex Erosion",
+          p1: "In neuroscience, human focus is governed by the Prefrontal Cortex (PFC)—the brain region responsible for decision-making, self-control, and deep concentration.",
+          p2: "When you consume short-form content (TikTok/Reels), your brain is forced to process new information every 15–30 seconds. This triggers continuous, excessive dopamine spikes.",
+          impact: "Scientific Impact:",
+          bullet1: "Negative Neuroplasticity: Your brain begins to \"prune\" neural circuits used for sustained attention because they’re no longer activated.",
+          bullet2: "Short-Term Attention Span: You suffer from Directed Attention Fatigue. You want to read a book, but your brain \"screams\" for instant stimulation. You’re losing the capacity for Deep Thinking."
+        },
+        chapter2: {
+          title: "Chapter 2: Amygdala Damage & Social Media Emotional Addiction",
+          p1: "Social media isn’t just entertainment—it’s an Amygdala machine. The amygdala is your brain’s emotional and \"fear center.\"",
+          p2: "Sensational headlines, angry debates, and comparison culture force your amygdala into chronic \"Hyper-arousal.\" You remain stuck in constant fight-or-flight mode.",
+          impact: "Scientific Impact:",
+          bullet1: "Cortisol Spike: Chronic stress hormone (cortisol) elevation gradually damages hippocampal cells—the memory center.",
+          bullet2: "Emotional Dysregulation: You become more reactive, anxious, and unable to find inner calm (Sakinah), even in silence. You no longer control your emotions—algorithms do."
+        },
+        chapter3: {
+          title: "Chapter 3: AI & Cognitive Atrophy (The Decline of Mental Muscle)",
+          p1: "Artificial Intelligence simplifies life—but risks Cognitive Atrophy. The human brain follows \"Synaptic Pruning\": unused neural connections are eliminated.",
+          p2: "When we stop thinking critically, stop memorizing routes, or stop strategic planning due to over-reliance on AI, our neural synapses begin to wither. We become a generation with \"Information Without Understanding\" and \"Data Without Wisdom.\""
+        },
+        solution: {
+          title: "THE NEUROQURANIC PROTOCOL: YOUR SOLUTION",
+          intro: "How do we fight back? NeuroQuranic isn’t just a religious app—it’s a Mental Gymnasium built on the miracle of the Qur’an and modern neuroscience.",
+          method1: {
+            title: "Huffaz Method: The Ultimate Brain Workout",
+            content: "Qur’anic memorization (Hifz) is the world’s most intensive cognitive training. It maximally activates the Left Inferior Frontal Gyrus, forcing your Prefrontal Cortex to \"reboot\" and rebuild focus circuits damaged by digital distraction. Neuroimaging shows memorizers have significantly higher gray matter density in memory and attention regions."
+          },
+          method2: {
+            title: "Neuro-Tadabbur: Counter AI Atrophy",
+            content: "NeuroQuranic trains you to engage with the Qur’an’s complex linguistic structure—exercising critical thinking to prevent mental laziness from AI dependence. You don’t just read; you dissect meaning, forge new synapses, and awaken dormant brain cells."
+          },
+          method3: {
+            title: "Soundwave Therapy: The Alpha State",
+            content: "Proper Qur’anic recitation (Tartil) produces unique sound frequencies. Scientifically, this induces Alpha brainwaves (8–13 Hz)—a state of calm yet razor-sharp focus. The vocal vibrations also stimulate the vagus nerve, lowering heart rate and soothing a nervous system \"burned out\" by social media."
+          }
+        },
+        conclusion: {
+          title: "Conclusion: Your Mind’s Future Is in Your Hands",
+          p1: "Science confirms: your brain can change (Neuroplasticity). You can let technology erode it—or use the NeuroQuranic Protocol to rebuild a \"Super-Brain\": calm, focused, and razor-sharp.",
+          p2: "Are you ready to reclaim your mental sovereignty?",
+          cta: "DOWNLOAD NEUROQURANIC FREE NOW",
+          website: "www.neuroquranic.app"
+        },
+        whyChoose: {
+          title: "Why Choose NeuroQuranic?",
+          scientific: {
+            title: "Scientifically Validated",
+            desc: "Content backed by neuroscientists and Islamic education experts."
+          },
+          curriculum: {
+            title: "Huffaz Curriculum",
+            desc: "Systematic memorization techniques accessible to all ages."
+          },
+          tracking: {
+            title: "Progress Tracking",
+            desc: "Visualize daily improvements in focus and tranquility."
+          }
+        }
+      },
+      ms: {
+        title: "Minda Anda Sedang \"Dihack\": Adakah Anda Mangsa Seterusnya?",
+        subtitle: "Satu pendedahan tentang kerosakan neuro-biologi akibat gaya hidup digital dan bagaimana NeuroQuranic membina semula struktur otak anda menggunakan teknologi Al-Quran.",
+        prologue: {
+          title: "Prolog: Kehilangan \"Kedaulatan\" Diri",
+          content: "Sedar atau tidak, kita sedang hidup dalam era \"Penjajahan Minda\" tanpa senjata api. Musuh kita bukan lagi manusia, tetapi algoritma yang direka untuk memanipulasi kimia otak kita. Setiap kali anda menyentuh skrin telefon, satu pertempuran sedang berlaku di dalam sistem saraf anda."
+        },
+        chapter1: {
+          title: "Bab 1: TikTok Brain & Hakisan \"Prefrontal Cortex\"",
+          p1: "Dalam istilah neurosains, fokus manusia dikawal oleh Prefrontal Cortex (PFC)—bahagian otak yang bertanggungjawab untuk membuat keputusan, kawalan diri, dan tumpuan mendalam.",
+          p2: "Apabila anda menonton kandungan pendek (TikTok/Reels), otak anda dipaksa untuk memproses maklumat baru setiap 15-30 saat. Ini mencetuskan renjatan Dopamine yang berlebihan secara berterusan.",
+          impact: "Kesan Saintifik:",
+          bullet1: "Neuroplasticity Negatif: Otak anda mula \"membuang\" litar saraf yang digunakan untuk tumpuan lama kerana ia tidak lagi diperlukan.",
+          bullet2: "Short-term Attention Span: Anda menjadi mangsa Directed Attention Fatigue. Anda mahu membaca buku, tetapi otak anda \"menjerit\" mahukan rangsangan pantas. Anda sedang kehilangan keupayaan untuk berfikir secara mendalam (Deep Thinking)."
+        },
+        chapter2: {
+          title: "Bab 2: Kerosakan \"Amygdala\" & Ketagihan Emosi Media Sosial",
+          p1: "Media sosial bukan sekadar hiburan; ia adalah mesin Amigdala. Amigdala adalah pusat emosi dan \"pusat ketakutan\" dalam otak.",
+          p2: "Berita yang sensasi, debat yang marah, dan budaya membandingkan diri di media sosial memaksa Amigdala anda berada dalam keadaan \"Hyper-arousal\". Anda sentiasa berada dalam mod Fight-or-Flight.",
+          impact: "Kesan Saintifik:",
+          bullet1: "Cortisol Spike: Tahap hormon stres (Kortisol) meningkat secara kronik, yang secara perlahan-lahan merosakkan sel-sel di Hippocampus (pusat memori).",
+          bullet2: "Emotional Dysregulation: Anda menjadi lebih emosional, mudah cemas, dan sukar mencari ketenangan (Sakinah) walaupun dalam waktu sunyi. Anda tidak lagi mengawal emosi anda; algoritma yang mengawalnya."
+        },
+        chapter3: {
+          title: "Bab 3: AI & Atrofi Kognitif (Kepupusan Otot Akal)",
+          p1: "Kecerdasan Buatan (AI) memang memudahkan, tetapi ia membawa risiko Atrofi Kognitif. Otak manusia berfungsi atas prinsip \"Synaptic Pruning\"—apa yang tidak digunakan akan dihapuskan.",
+          p2: "Apabila kita berhenti berfikir kritis, berhenti menghafal jalan, atau berhenti merancang strategi kerana terlalu bergantung kepada AI, sinaps (sambungan saraf) dalam otak kita mula melayu. Kita menjadi generasi yang memiliki \"Maklumat Tanpa Kefahaman\" dan \"Data Tanpa Kebijaksanaan\"."
+        },
+        solution: {
+          title: "SOLUSI: PROTOKOL NEUROQURANIC",
+          intro: "Bagaimana Kita Melawan Balik? NeuroQuranic bukan sekadar aplikasi agama; ia adalah Gimnasium Mental yang dibina atas gabungan mukjizat Al-Quran dan penemuan neurosains moden.",
+          method1: {
+            title: "Kaedah Huffaz: \"The Ultimate Brain Workout\"",
+            content: "Tradisi menghafal Al-Quran (Hifz) adalah latihan kognitif paling intensif di dunia. Sains Hafalan: Apabila anda menghafal ayat Al-Quran menggunakan teknik Huffaz, anda sedang mengaktifkan Left Inferior Frontal Gyrus secara maksima. Ia memaksa Prefrontal Cortex anda untuk \"reboot\" dan membina semula litar fokus yang telah rosak oleh TikTok Brain. Peningkatan Grey Matter: Kajian neuro-imejing menunjukkan penghafal tegar mempunyai kepadatan Grey Matter yang lebih tinggi di bahagian otak yang mengawal memori dan perhatian."
+          },
+          method2: {
+            title: "Neuro-Tadabbur: Melawan Atrofi AI",
+            content: "NeuroQuranic melatih anda untuk berfikir melalui struktur linguistik Al-Quran yang kompleks. Ini adalah latihan Critical Thinking yang menghalang otak daripada menjadi malas akibat pergantungan kepada AI. Anda tidak hanya membaca; anda membedah makna, membina sinaps baru, dan menghidupkan semula sel-sel otak yang dorman."
+          },
+          method3: {
+            title: "Terapi Gelombang Suara (The Alpha State)",
+            content: "Bacaan Al-Quran yang bertartil mengikut hukum tajwid menghasilkan frekuensi bunyi yang unik. Sinkronisasi Otak: Secara saintifik, ia mendorong otak masuk ke fasa Gelombang Alpha (8-13 Hz)—keadaan di mana minda sangat tenang tetapi sangat fokus. Vagus Nerve Stimulation: Getaran suara daripada bacaan Al-Quran merangsang saraf vagus, yang secara automatik menurunkan kadar denyutan jantung dan menenangkan sistem saraf yang sebelum ini \"terbakar\" oleh media sosial."
+          }
+        },
+        conclusion: {
+          title: "Kesimpulan: Masa Depan Minda Anda Di Tangan Anda",
+          p1: "Sains telah membuktikan: Otak anda boleh berubah (Neuroplasticity). Anda boleh terus membiarkan teknologi merosakkannya, atau anda boleh menggunakan Protokol NeuroQuranic untuk membina semula \"Super-Brain\" yang tenang, fokus, dan tajam.",
+          p2: "Adakah anda bersedia untuk merampas semula kedaulatan minda anda?",
+          cta: "MUAT TURUN NEUROQURANIC PERCUMA SEKARANG",
+          website: "www.neuroquranic.app"
+        },
+        whyChoose: {
+          title: "Kenapa Pilih NeuroQuranic?",
+          scientific: {
+            title: "Kajian Saintifik",
+            desc: "Kandungan yang disokong oleh pakar neurosains dan pendidikan Islam."
+          },
+          curriculum: {
+            title: "Kurikulum Huffaz",
+            desc: "Teknik hafalan sistematik yang mudah diikuti oleh semua peringkat umur."
+          },
+          tracking: {
+            title: "Pantau Kemajuan",
+            desc: "Lihat bagaimana daya fokus dan ketenangan anda meningkat hari demi hari."
+          }
+        }
+      },
+      id: {
+        title: "Pikiran Anda Sedang \"Dihack\": Akankah Anda Jadi Korban Berikutnya?",
+        subtitle: "Sebuah pengungkapan tentang kerusakan neuro-biologis akibat gaya hidup digital—dan bagaimana NeuroQuranic membangun kembali arsitektur otak Anda menggunakan teknologi Al-Qur'an.",
+        prologue: {
+          title: "Prolog: Kehilangan \"Kedaulatan\" Diri",
+          content: "Sadar atau tidak, kita tengah hidup di era \"Penjajahan Pikiran\" tanpa senjata api. Musuh kita bukan lagi manusia, melainkan algoritma yang dirancang untuk memanipulasi kimia otak kita. Setiap kali Anda menyentuh layar ponsel, pertempuran sedang berkecamuk di dalam sistem saraf Anda."
+        },
+        chapter1: {
+          title: "Bab 1: Otak TikTok & Erosi \"Prefrontal Cortex\"",
+          p1: "Dalam ilmu saraf, fokus manusia dikendalikan oleh Prefrontal Cortex (PFC)—bagian otak yang bertanggung jawab atas pengambilan keputusan, pengendalian diri, dan konsentrasi mendalam.",
+          p2: "Saat Anda menonton konten pendek (TikTok/Reels), otak Anda dipaksa memproses informasi baru setiap 15-30 detik. Ini memicu lonjakan dopamin berlebihan secara terus-menerus.",
+          impact: "Dampak Ilmiah:",
+          bullet1: "Neuroplastisitas Negatif: Otak Anda mulai \"menghapus\" sirkuit saraf yang digunakan untuk fokus jangka panjang karena tidak lagi digunakan.",
+          bullet2: "Rentang Perhatian Pendek: Anda menjadi korban Kelelahan Perhatian Terarah. Anda ingin membaca buku, tetapi otak Anda \"berteriak\" menginginkan stimulasi instan. Anda kehilangan kemampuan untuk berpikir mendalam (Deep Thinking)."
+        },
+        chapter2: {
+          title: "Bab 2: Kerusakan \"Amygdala\" & Kecanduan Emosi Media Sosial",
+          p1: "Media sosial bukan sekadar hiburan; ia adalah mesin Amigdala. Amigdala adalah pusat emosi dan \"pusat rasa takut\" di otak.",
+          p2: "Berita sensasional, perdebatan marah, dan budaya membandingkan diri di media sosial memaksa Amigdala Anda dalam kondisi \"Hyper-arousal\". Anda selalu berada dalam mode lawan-atau-lari (Fight-or-Flight).",
+          impact: "Dampak Ilmiah:",
+          bullet1: "Lonjakan Kortisol: Kadar hormon stres (Kortisol) meningkat secara kronis, perlahan merusak sel-sel di Hippocampus (pusat memori).",
+          bullet2: "Disregulasi Emosional: Anda jadi lebih emosional, mudah cemas, dan sulit menemukan ketenangan (Sakinah) bahkan saat dalam kesunyian. Anda tak lagi mengendalikan emosi Anda; algoritma yang mengendalikannya."
+        },
+        chapter3: {
+          title: "Bab 3: AI & Atrofi Kognitif (Kemunduran Otot Pikiran)",
+          p1: "Kecerdasan Buatan (AI) memang mempermudah, tapi membawa risiko Atrofi Kognitif. Otak manusia bekerja dengan prinsip \"Pemangkasan Sinaptik\"—apa yang tidak digunakan akan dihapus.",
+          p2: "Saat kita berhenti berpikir kritis, berhenti menghafal rute, atau berhenti merancang strategi karena terlalu bergantung pada AI, sinaps (sambungan saraf) di otak kita mulai layu. Kita menjadi generasi yang memiliki \"Informasi Tanpa Pemahaman\" dan \"Data Tanpa Kebijaksanaan\"."
+        },
+        solution: {
+          title: "SOLUSI: PROTOKOL NEUROQURANIC",
+          intro: "Bagaimana Kita Melawan? NeuroQuranic bukan sekadar aplikasi agama; ia adalah Gimnasium Mental yang dibangun atas penggabungan mukjizat Al-Qur'an dan temuan neurosains modern.",
+          method1: {
+            title: "Metode Huffaz: \"Latihan Otak Ultimate\"",
+            content: "Tradisi menghafal Al-Qur'an (Hifz) adalah latihan kognitif paling intensif di dunia. Ilmu Hafalan: Saat Anda menghafal ayat Al-Qur'an menggunakan teknik Huffaz, Anda sedang mengaktifkan Left Inferior Frontal Gyrus secara maksimal. Ini memaksa Prefrontal Cortex Anda untuk \"reboot\" dan membangun kembali sirkuit fokus yang rusak oleh TikTok Brain. Peningkatan Grey Matter: Studi neuroimaging menunjukkan para penghafal Al-Qur'an memiliki kepadatan Grey Matter lebih tinggi di bagian otak yang mengatur memori dan perhatian."
+          },
+          method2: {
+            title: "Neuro-Tadabbur: Melawan Atrofi AI",
+            content: "NeuroQuranic melatih Anda untuk berpikir melalui struktur linguistik Al-Qur'an yang kompleks. Ini adalah latihan Berpikir Kritis yang mencegah otak menjadi malas akibat ketergantungan pada AI. Anda tidak hanya membaca; Anda menganalisis makna, membentuk sinaps baru, dan menghidupkan kembali sel-sel otak yang dorman."
+          },
+          method3: {
+            title: "Terapi Gelombang Suara (Keadaan Alpha)",
+            content: "Bacaan Al-Qur'an yang bertartil sesuai hukum tajwid menghasilkan frekuensi suara unik. Sinkronisasi Otak: Secara ilmiah, ini mendorong otak memasuki fase Gelombang Alpha (8-13 Hz)—keadaan pikiran sangat tenang namun sangat fokus. Stimulasi Saraf Vagus: Getaran suara dari bacaan Al-Qur'an merangsang saraf vagus, yang secara otomatis menurunkan detak jantung dan menenangkan sistem saraf yang sebelumnya \"terbakar\" oleh media sosial."
+          }
+        },
+        conclusion: {
+          title: "Kesimpulan: Masa Depan Pikiran Anda di Tangan Anda",
+          p1: "Sains telah membuktikan: Otak Anda dapat berubah (Neuroplastisitas). Anda bisa terus membiarkan teknologi merusaknya, atau menggunakan Protokol NeuroQuranic untuk membangun kembali \"Super-Brain\" yang tenang, fokus, dan tajam.",
+          p2: "Apakah Anda siap merebut kembali kedaulatan pikiran Anda?",
+          cta: "UNDUH NEUROQURANIC GRATIS SEKARANG",
+          website: "www.neuroquranic.app"
+        },
+        whyChoose: {
+          title: "Mengapa Memilih NeuroQuranic?",
+          scientific: {
+            title: "Studi Ilmiah",
+            desc: "Konten yang didukung oleh pakar neurosains dan pendidikan Islam."
+          },
+          curriculum: {
+            title: "Kurikulum Huffaz",
+            desc: "Teknik hafalan sistematis yang mudah diikuti semua usia."
+          },
+          tracking: {
+            title: "Pantau Perkembangan",
+            desc: "Lihat bagaimana daya fokus dan ketenangan Anda meningkat hari demi hari."
+          }
+        }
+      }
+    };
+
+    // DOM elements
+    const titleEl = document.getElementById('main-title');
+    const subtitleEl = document.getElementById('subtitle');
+    const contentContainer = document.getElementById('content-container');
+    const languageButtons = document.querySelectorAll('.language-btn');
+
+    let currentLang = 'ms';
+
+    // Render content function
+    function renderContent() {
+      const t = translations[currentLang];
+      
+      // Update header
+      titleEl.textContent = t.title;
+      subtitleEl.textContent = t.subtitle;
+      
+      // Update language button styles
+      languageButtons.forEach(btn => {
+        if (btn.dataset.lang === currentLang) {
+          btn.className = 'language-btn px-4 py-2 rounded-full text-sm font-medium text-white bg-gradient-to-r from-cyan-500 to-purple-600 shadow-lg';
+        } else {
+          btn.className = 'language-btn px-4 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700/50';
+        }
+      });
+      
+      // Render main content
+      contentContainer.innerHTML = `
+        <!-- Prologue -->
+        <section class="mb-20">
+          <h2 class="text-3xl font-bold mb-6 text-cyan-300 flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            ${t.prologue.title}
           </h2>
-          <p className="text-lg text-slate-200 leading-relaxed">
-            {t.prologue.content}
+          <p class="text-lg text-slate-200 leading-relaxed">
+            ${t.prologue.content}
           </p>
         </section>
 
-        {/* Chapter 1 */}
-        <section className="mb-20 bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
-          <h2 className="text-2xl font-bold mb-4 text-purple-300 flex items-center gap-3">
-            <Brain className="w-7 h-7" />
-            {t.chapter1.title}
+        <!-- Chapter 1 -->
+        <section class="mb-20 bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+          <h2 class="text-2xl font-bold mb-4 text-purple-300 flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-brain"><path d="M12 9.5c-1.4 0-2.5-.9-2.5-2V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2.5c0 1.1-1.1 2-2.5 2"/><path d="M12 14.5c-1.4 0-2.5-.9-2.5-2v-2a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2c0 1.1-1.1 2-2.5 2"/><path d="M12 19.5c-1.4 0-2.5-.9-2.5-2v-2a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2c0 1.1-1.1 2-2.5 2"/><path d="M4.3 12h.8c.4 0 .8.3.8.8v1.8c0 .4-.4.8-.8.8h-.8c-.4 0-.8-.4-.8-.8v-1.8c0-.5.4-.8.8-.8"/><path d="M18.9 12h.8c.4 0 .8.3.8.8v1.8c0 .4-.4.8-.8.8h-.8c-.4 0-.8-.4-.8-.8v-1.8c0-.5.4-.8.8-.8"/></svg>
+            ${t.chapter1.title}
           </h2>
-          <p className="text-slate-200 mb-4">
-            {t.chapter1.p1}
-          </p>
-          <p className="text-slate-200 mb-6">
-            {t.chapter1.p2}
-          </p>
-          <div className="space-y-4">
-            <div className="bg-red-900/30 p-4 rounded-lg border-l-4 border-red-500">
-              <h3 className="font-bold text-red-300">{t.chapter1.impact}</h3>
-              <ul className="list-disc pl-5 space-y-2 mt-2 text-slate-200">
-                <li>{t.chapter1.bullet1}</li>
-                <li>{t.chapter1.bullet2}</li>
+          <p class="text-slate-200 mb-4">${t.chapter1.p1}</p>
+          <p class="text-slate-200 mb-6">${t.chapter1.p2}</p>
+          <div class="space-y-4">
+            <div class="bg-red-900/30 p-4 rounded-lg border-l-4 border-red-500">
+              <h3 class="font-bold text-red-300">${t.chapter1.impact}</h3>
+              <ul class="list-disc pl-5 space-y-2 mt-2 text-slate-200">
+                <li>${t.chapter1.bullet1}</li>
+                <li>${t.chapter1.bullet2}</li>
               </ul>
             </div>
           </div>
         </section>
 
-        {/* Chapter 2 */}
-        <section className="mb-20 bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
-          <h2 className="text-2xl font-bold mb-4 text-amber-300 flex items-center gap-3">
-            <Zap className="w-7 h-7" />
-            {t.chapter2.title}
+        <!-- Chapter 2 -->
+        <section class="mb-20 bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+          <h2 class="text-2xl font-bold mb-4 text-amber-300 flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            ${t.chapter2.title}
           </h2>
-          <p className="text-slate-200 mb-4">
-            {t.chapter2.p1}
-          </p>
-          <p className="text-slate-200 mb-6">
-            {t.chapter2.p2}
-          </p>
-          <div className="space-y-4">
-            <div className="bg-amber-900/30 p-4 rounded-lg border-l-4 border-amber-500">
-              <h3 className="font-bold text-amber-300">{t.chapter2.impact}</h3>
-              <ul className="list-disc pl-5 space-y-2 mt-2 text-slate-200">
-                <li>{t.chapter2.bullet1}</li>
-                <li>{t.chapter2.bullet2}</li>
+          <p class="text-slate-200 mb-4">${t.chapter2.p1}</p>
+          <p class="text-slate-200 mb-6">${t.chapter2.p2}</p>
+          <div class="space-y-4">
+            <div class="bg-amber-900/30 p-4 rounded-lg border-l-4 border-amber-500">
+              <h3 class="font-bold text-amber-300">${t.chapter2.impact}</h3>
+              <ul class="list-disc pl-5 space-y-2 mt-2 text-slate-200">
+                <li>${t.chapter2.bullet1}</li>
+                <li>${t.chapter2.bullet2}</li>
               </ul>
             </div>
           </div>
         </section>
 
-        {/* Chapter 3 */}
-        <section className="mb-20 bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
-          <h2 className="text-2xl font-bold mb-4 text-emerald-300 flex items-center gap-3">
-            <BookOpen className="w-7 h-7" />
-            {t.chapter3.title}
+        <!-- Chapter 3 -->
+        <section class="mb-20 bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+          <h2 class="text-2xl font-bold mb-4 text-emerald-300 flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            ${t.chapter3.title}
           </h2>
-          <p className="text-slate-200 mb-6">
-            {t.chapter3.p1}
-          </p>
-          <p className="text-slate-200 mb-6">
-            {t.chapter3.p2}
-          </p>
+          <p class="text-slate-200 mb-6">${t.chapter3.p1}</p>
+          <p class="text-slate-200 mb-6">${t.chapter3.p2}</p>
         </section>
 
-        {/* SOLUTION */}
-        <section className="mb-20 text-center">
-          <div className="inline-block bg-gradient-to-r from-cyan-600 to-purple-600 text-white px-6 py-3 rounded-full mb-10">
-            <h2 className="text-3xl font-bold">{t.solution.title}</h2>
+        <!-- SOLUTION -->
+        <section class="mb-20 text-center">
+          <div class="inline-block bg-gradient-to-r from-cyan-600 to-purple-600 text-white px-6 py-3 rounded-full mb-10">
+            <h2 class="text-3xl font-bold">${t.solution.title}</h2>
           </div>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto mb-12">
-            {t.solution.intro}
-          </p>
+          <p class="text-xl text-slate-300 max-w-3xl mx-auto mb-12">${t.solution.intro}</p>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            {/* Method 1 */}
-            <div className="bg-slate-800/60 p-6 rounded-xl border border-cyan-500/30 hover:border-cyan-400 transition-all">
-              <div className="w-14 h-14 bg-cyan-600 rounded-lg flex items-center justify-center mb-4">
-                <BookOpen className="w-8 h-8" />
+          <div class="grid md:grid-cols-3 gap-8 mb-16">
+            <div class="bg-slate-800/60 p-6 rounded-xl border border-cyan-500/30 hover:border-cyan-400 transition-all">
+              <div class="w-14 h-14 bg-cyan-600 rounded-lg flex items-center justify-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open text-white"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-cyan-300">{t.solution.method1.title}</h3>
-              <p className="text-slate-300">
-                {t.solution.method1.content}
-              </p>
+              <h3 class="text-xl font-bold mb-3 text-cyan-300">${t.solution.method1.title}</h3>
+              <p class="text-slate-300">${t.solution.method1.content}</p>
             </div>
 
-            {/* Method 2 */}
-            <div className="bg-slate-800/60 p-6 rounded-xl border border-purple-500/30 hover:border-purple-400 transition-all">
-              <div className="w-14 h-14 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
-                <Brain className="w-8 h-8" />
+            <div class="bg-slate-800/60 p-6 rounded-xl border border-purple-500/30 hover:border-purple-400 transition-all">
+              <div class="w-14 h-14 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-brain text-white"><path d="M12 9.5c-1.4 0-2.5-.9-2.5-2V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2.5c0 1.1-1.1 2-2.5 2"/><path d="M12 14.5c-1.4 0-2.5-.9-2.5-2v-2a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2c0 1.1-1.1 2-2.5 2"/><path d="M12 19.5c-1.4 0-2.5-.9-2.5-2v-2a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2c0 1.1-1.1 2-2.5 2"/><path d="M4.3 12h.8c.4 0 .8.3.8.8v1.8c0 .4-.4.8-.8.8h-.8c-.4 0-.8-.4-.8-.8v-1.8c0-.5.4-.8.8-.8"/><path d="M18.9 12h.8c.4 0 .8.3.8.8v1.8c0 .4-.4.8-.8.8h-.8c-.4 0-.8-.4-.8-.8v-1.8c0-.5.4-.8.8-.8"/></svg>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-purple-300">{t.solution.method2.title}</h3>
-              <p className="text-slate-300">
-                {t.solution.method2.content}
-              </p>
+              <h3 class="text-xl font-bold mb-3 text-purple-300">${t.solution.method2.title}</h3>
+              <p class="text-slate-300">${t.solution.method2.content}</p>
             </div>
 
-            {/* Method 3 */}
-            <div className="bg-slate-800/60 p-6 rounded-xl border border-emerald-500/30 hover:border-emerald-400 transition-all">
-              <div className="w-14 h-14 bg-emerald-600 rounded-lg flex items-center justify-center mb-4">
-                <Waves className="w-8 h-8" />
+            <div class="bg-slate-800/60 p-6 rounded-xl border border-emerald-500/30 hover:border-emerald-400 transition-all">
+              <div class="w-14 h-14 bg-emerald-600 rounded-lg flex items-center justify-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-waves text-white"><path d="M2 12C2 12 7 3 12 3s10 9 10 9-5 9-10 9S2 12 2 12z"/><path d="M12 3c5 9 10 9 10 9"/><path d="M2 12c5 9 10 9 10 9"/></svg>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-emerald-300">{t.solution.method3.title}</h3>
-              <p className="text-slate-300">
-                {t.solution.method3.content}
-              </p>
+              <h3 class="text-xl font-bold mb-3 text-emerald-300">${t.solution.method3.title}</h3>
+              <p class="text-slate-300">${t.solution.method3.content}</p>
             </div>
           </div>
         </section>
 
-        {/* Conclusion */}
-        <section className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-6 text-cyan-300">{t.conclusion.title}</h2>
-          <p className="text-lg text-slate-300 max-w-3xl mx-auto mb-8">
-            {t.conclusion.p1}
-          </p>
-          <p className="text-xl mb-8">{t.conclusion.p2}</p>
+        <!-- Conclusion -->
+        <section class="text-center mb-16">
+          <h2 class="text-3xl font-bold mb-6 text-cyan-300">${t.conclusion.title}</h2>
+          <p class="text-lg text-slate-300 max-w-3xl mx-auto mb-8">${t.conclusion.p1}</p>
+          <p class="text-xl mb-8">${t.conclusion.p2}</p>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 px-8 py-4 rounded-full font-bold text-lg flex items-center gap-3 transition-all transform hover:scale-105 shadow-lg shadow-cyan-500/20">
-              <Download className="w-5 h-5" />
-              {t.conclusion.cta}
+          <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <button class="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 px-8 py-4 rounded-full font-bold text-lg flex items-center gap-3 transition-all transform hover:scale-105 shadow-lg shadow-cyan-500/20">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              ${t.conclusion.cta}
             </button>
-            <a 
-              href="https://www.neuroquranic.app" 
-              className="text-cyan-400 hover:text-cyan-300 flex items-center gap-2 text-lg font-medium"
-            >
-              <Globe className="w-5 h-5" />
-              {t.conclusion.website}
+            <a href="https://www.neuroquranic.app" class="text-cyan-400 hover:text-cyan-300 flex items-center gap-2 text-lg font-medium">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              ${t.conclusion.website}
             </a>
           </div>
         </section>
 
-        {/* Why Choose */}
-        <section className="bg-slate-800/40 p-8 rounded-2xl max-w-4xl mx-auto border border-slate-700">
-          <h3 className="text-2xl font-bold text-center mb-6 text-purple-300">{t.whyChoose.title}</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Brain className="w-6 h-6" />
+        <!-- Why Choose -->
+        <section class="bg-slate-800/40 p-8 rounded-2xl max-w-4xl mx-auto border border-slate-700">
+          <h3 class="text-2xl font-bold text-center mb-6 text-purple-300">${t.whyChoose.title}</h3>
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="text-center">
+              <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-brain text-white"><path d="M12 9.5c-1.4 0-2.5-.9-2.5-2V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2.5c0 1.1-1.1 2-2.5 2"/><path d="M12 14.5c-1.4 0-2.5-.9-2.5-2v-2a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2c0 1.1-1.1 2-2.5 2"/><path d="M12 19.5c-1.4 0-2.5-.9-2.5-2v-2a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2c0 1.1-1.1 2-2.5 2"/><path d="M4.3 12h.8c.4 0 .8.3.8.8v1.8c0 .4-.4.8-.8.8h-.8c-.4 0-.8-.4-.8-.8v-1.8c0-.5.4-.8.8-.8"/><path d="M18.9 12h.8c.4 0 .8.3.8.8v1.8c0 .4-.4.8-.8.8h-.8c-.4 0-.8-.4-.8-.8v-1.8c0-.5.4-.8.8-.8"/></svg>
               </div>
-              <h4 className="font-bold mb-2">{t.whyChoose.scientific.title}</h4>
-              <p className="text-slate-300 text-sm">{t.whyChoose.scientific.desc}</p>
+              <h4 class="font-bold mb-2">${t.whyChoose.scientific.title}</h4>
+              <p class="text-slate-300 text-sm">${t.whyChoose.scientific.desc}</p>
             </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <BookOpen className="w-6 h-6" />
+            <div class="text-center">
+              <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open text-white"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
               </div>
-              <h4 className="font-bold mb-2">{t.whyChoose.curriculum.title}</h4>
-              <p className="text-slate-300 text-sm">{t.whyChoose.curriculum.desc}</p>
+              <h4 class="font-bold mb-2">${t.whyChoose.curriculum.title}</h4>
+              <p class="text-slate-300 text-sm">${t.whyChoose.curriculum.desc}</p>
             </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Users className="w-6 h-6" />
+            <div class="text-center">
+              <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users text-white"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               </div>
-              <h4 className="font-bold mb-2">{t.whyChoose.tracking.title}</h4>
-              <p className="text-slate-300 text-sm">{t.whyChoose.tracking.desc}</p>
+              <h4 class="font-bold mb-2">${t.whyChoose.tracking.title}</h4>
+              <p class="text-slate-300 text-sm">${t.whyChoose.tracking.desc}</p>
             </div>
           </div>
         </section>
-      </div>
-    </div>
-  );
-}
+      `;
+    }
+
+    // Language switching
+    languageButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        currentLang = button.dataset.lang;
+        renderContent();
+      });
+    });
+
+    // Initial render
+    document.addEventListener('DOMContentLoaded', () => {
+      renderContent();
+    });
+  </script>
+</body>
+</html>
+
