@@ -113,7 +113,6 @@
       en: {
         title: "Your Mind Is Being \"Hacked\": Could You Be Next?",
         subtitle: "An exposé on the neuro-biological damage caused by digital lifestyles—and how NeuroQuranic rebuilds your brain’s architecture using the technology of the Qur’an.",
-        videoDesc: "An exposé on the neuro-biological damage caused by digital lifestyles—and how NeuroQuranic rebuilds your brain’s architecture using the technology of the Qur’an.",
         prologue: {
           title: "Prologue: The Loss of Mental Sovereignty",
           content: "Whether you realize it or not, we live in an era of \"Mind Colonization\" without weapons. Your enemy is no longer another person—but algorithms engineered to manipulate your brain chemistry. Every time you touch your phone screen, a battle rages within your nervous system."
@@ -181,7 +180,6 @@
       ms: {
         title: "Minda Anda Sedang \"Dihack\": Adakah Anda Mangsa Seterusnya?",
         subtitle: "Satu pendedahan tentang kerosakan neuro-biologi akibat gaya hidup digital dan bagaimana NeuroQuranic membina semula struktur otak anda menggunakan teknologi Al-Quran.",
-        videoDesc: "Kerosakan neuro-biologi akibat gaya hidup digital dan NeuroQuranic App  membina semula struktur otak anda menggunakan teknologi Al-Quran.",
         prologue: {
           title: "Prolog: Kehilangan \"Kedaulatan\" Diri",
           content: "Sedar atau tidak, kita sedang hidup dalam era \"Penjajahan Minda\" tanpa senjata api. Musuh kita bukan lagi manusia, tetapi algoritma yang direka untuk memanipulasi kimia otak kita. Setiap kali anda menyentuh skrin telefon, satu pertempuran sedang berlaku di dalam sistem saraf anda."
@@ -249,7 +247,6 @@
       id: {
         title: "Pikiran Anda Sedang \"Dihack\": Akankah Anda Jadi Korban Berikutnya?",
         subtitle: "Sebuah pengungkapan tentang kerusakan neuro-biologis akibat gaya hidup digital—dan bagaimana NeuroQuranic membangun kembali arsitektur otak Anda menggunakan teknologi Al-Qur'an.",
-        videoDesc: "Sebuah pengungkapan tentang kerusakan neuro-biologis akibat gaya hidup digital—dan bagaimana NeuroQuranic membangun kembali arsitektur otak Anda menggunakan teknologi Al-Qur'an.",
         prologue: {
           title: "Prolog: Kehilangan \"Kedaulatan\" Diri",
           content: "Sadar atau tidak, kita tengah hidup di era \"Penjajahan Pikiran\" tanpa senjata api. Musuh kita bukan lagi manusia, melainkan algoritma yang dirancang untuk memanipulasi kimia otak kita. Setiap kali Anda menyentuh layar ponsel, pertempuran sedang berkecamuk di dalam sistem saraf Anda."
@@ -319,7 +316,6 @@
     // DOM elements
     const titleEl = document.getElementById('main-title');
     const subtitleEl = document.getElementById('subtitle');
-    const videoDescEl = document.getElementById('video-description');
     const contentContainer = document.getElementById('content-container');
     const languageButtons = document.querySelectorAll('.language-btn');
 
@@ -332,7 +328,6 @@
       // Update header
       titleEl.textContent = t.title;
       subtitleEl.textContent = t.subtitle;
-      videoDescEl.textContent = t.videoDesc;
       
       // Update language button styles
       languageButtons.forEach(btn => {
@@ -445,10 +440,10 @@
           <p class="text-xl mb-8">${t.conclusion.p2}</p>
           
           <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <button class="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 px-8 py-4 rounded-full font-bold text-lg flex items-center gap-3 transition-all transform hover:scale-105 shadow-lg shadow-cyan-500/20">
+            <a href="https://neuroquranic.app" class="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 px-8 py-4 rounded-full font-bold text-lg flex items-center gap-3 transition-all transform hover:scale-105 shadow-lg shadow-cyan-500/20">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               ${t.conclusion.cta}
-            </button>
+            </a>
             <a href="https://www.neuroquranic.app" class="text-cyan-400 hover:text-cyan-300 flex items-center gap-2 text-lg font-medium">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
               ${t.conclusion.website}
@@ -502,3 +497,7 @@
 </body>
 </html>
 
+<a href="https://neuroquranic.app" class="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 px-8 py-4 rounded-full font-bold text-lg flex items-center gap-3 transition-all transform hover:scale-105 shadow-lg shadow-cyan-500/20">
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+  ${t.conclusion.cta}
+</a>
